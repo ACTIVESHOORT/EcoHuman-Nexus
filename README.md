@@ -1,52 +1,70 @@
-# EcoHuman-Nexus 🌱🤝
+# EcoHuman-Nexus
 
-> A modular, open-source python framework for crowdsourcing solutions to systemic environmental and social problems.
+A lightweight, zero-dependency Python framework for localized resource routing, geospatial asset mapping, and carbon accounting.
 
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+## Architectural Overview
 
-EcoHuman-Nexus is a multi-module ecological toolkit. Rather than focusing on single-use scripts, it provides an extensible Python engine for community-driven sustainability.
+EcoHuman-Nexus provides modular components designed for community resilience projects and urban sustainability programs.
+
+```
+EcoHuman-Nexus/
+├── ecohuman/
+│   ├── __init__.py
+│   ├── matchmaker.py   # SQLite-backed Haversine geospatial matching engine
+│   ├── carbon.py       # Scope 1/2 GHG emission calculator
+│   ├── geo.py          # GeoJSON FeatureCollection mapper
+│   └── policy.py       # Municipal environmental policy parser
+├── tests/
+│   └── test_ecohuman.py # Comprehensive unit test suite
+├── .github/
+│   └── workflows/
+│       └── ci.yml      # Automated GitHub Actions test pipeline
+├── setup.py            # Standard Python package configuration
+└── main.py             # CLI Entrypoint
+```
+
+## Modules & Specifications
+
+### 1. Geospatial Waste Matchmaker (`ecohuman.matchmaker`)
+Employs the Haversine formula to compute great-circle distances between resource donors and receivers:
+
+$$\text{Distance} = 2r \arcsin \left( \sqrt{\sin^2\left(\frac{\Delta \phi}{2}\right) + \cos(\phi_1)\cos(\phi_2)\sin^2\left(\frac{\Delta \lambda}{2}\right)} \right)$$
+
+Matches are filtered dynamically based on custom radius constraints (`max_distance_km`).
+
+### 2. GHG Emission Accounting (`ecohuman.carbon`)
+Calculates Scope 1 and Scope 2 equivalent carbon emissions ($\text{kg CO}_2\text{e}$) using standard EPA inventory conversion metrics across electricity grid consumption, natural gas, and liquid fuels.
+
+### 3. Local GIS Mapper (`ecohuman.geo`)
+Generates standardized GeoJSON structures for integration with Leaflet.js, OpenStreetMap, or ArcGIS platforms.
 
 ---
 
-## 📦 Architecture & Key Modules
+## Quickstart
 
-1. **`ecohuman.matchmaker` (SQLite Waste-to-Resource Engine)**  
-   Production-grade relational matching system that routes surplus food, construction materials, and electronics away from landfills to organizations that need them.
-
-2. **`ecohuman.carbon` (Scope 1 & 2 Carbon Footprint Estimator)**  
-   Calculates greenhouse gas emissions (in kg and Metric Tons of CO2e) for small businesses based on electricity, gas, fuel, and landfill waste metrics.
-
-3. **`ecohuman.geo` (GIS Resource FeatureCollection Generator)**  
-   Outputs valid GeoJSON FeatureCollections for mapping local clean water stations, urban gardens, and recycling points.
-
-4. **`ecohuman.policy` (Environmental Policy Monitor)**  
-   Tracks and filters municipal and state-level environmental regulations.
-
----
-
-## 🛠️ Quickstart
+### Prerequisites
+Python 3.8+ (Zero external dependencies required).
 
 ### Installation
 ```bash
 git clone https://github.com/ACTIVESHOORT/EcoHuman-Nexus.git
 cd EcoHuman-Nexus
-pip install -r requirements.txt
+pip install -e .
 ```
 
-### Running the CLI Suite
+### Execution
+Run the system demonstration CLI:
 ```bash
-python main.py
+python main.py --max-distance 50.0
 ```
 
-### Running Unit Tests
+### Running Test Suite
+Execute the automated test suite locally:
 ```bash
-pytest tests/
+python -m unittest discover tests
 ```
 
 ---
 
-## 🤝 Contributing
-Contributions are welcome! Please open an Issue or PR to expand our module ecosystem.
-
-*Built with ❤️ for community-driven ecological action.*
+## License
+MIT License. See [LICENSE](LICENSE) for details.
